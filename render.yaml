@@ -7,4 +7,11 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: PORT
-        value: 8080
+        value: "8080"
+      - key: SECRET_KEY
+        generateValue: true  # Render genera automaticamente una secret key sicura
+      - key: BASE_URL
+        fromService:
+          type: web
+          name: searxng
+          property: url  # Prende automaticamente l'URL del servizio
