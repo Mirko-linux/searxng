@@ -1,5 +1,7 @@
 server:
-  secret_key: "{{ env.SEARXNG_SECRET }}"
+  bind_address: "0.0.0.0"
+  port: !ENV "PORT"
+  secret_key: !ENV "SEARXNG_SECRET"
   base_url: "{{ env.BASE_URL }}"
   limiter: false
   image_proxy: false
@@ -221,3 +223,5 @@ categories:
   maps:
     name: "Mappe"
     engines: ["openstreetmap", "openrouteservice"]
+
+    
