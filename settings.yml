@@ -1,5 +1,5 @@
 server:
-  secret_key: "{{ env.SECRET_KEY }}"
+  secret_key: "{{ env.SEARXNG_SECRET }}"
   base_url: "{{ env.BASE_URL }}"
   limiter: false
   image_proxy: false
