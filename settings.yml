@@ -1,0 +1,223 @@
+server:
+  secret_key: "{{ env.SECRET_KEY }}"
+  base_url: "{{ env.BASE_URL }}"
+  limiter: false
+  image_proxy: false
+  http_protocol_version: "1.1"
+
+search:
+  formats:
+    - html
+    - json
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "it"
+  languages: ["it", "en", "fr", "de", "es"]
+
+engines:
+  # MOTORI GENERALI (funzionano senza API key)
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: ddg
+    categories: general
+    timeout: 5.0
+    enable_http: false
+
+  - name: startpage
+    engine: startpage
+    shortcut: sp
+    categories: general
+    timeout: 5.0
+
+  - name: qwant
+    engine: qwant
+    shortcut: qw
+    categories: general
+    timeout: 5.0
+
+  - name: brave
+    engine: brave
+    shortcut: br
+    categories: general
+    timeout: 5.0
+
+  # ENCICLOPEDIE E CONOSCENZA
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wiki
+    categories: general
+    timeout: 5.0
+    language: "it"
+
+  - name: wiktionary
+    engine: wiktionary
+    shortcut: wikt
+    categories: general
+    timeout: 5.0
+
+  # IMMAGINI
+  - name: duckduckgo-images
+    engine: duckduckgo_images
+    shortcut: ddgi
+    categories: images
+    timeout: 5.0
+
+  - name: google-images
+    engine: google_images
+    shortcut: gi
+    categories: images
+    timeout: 5.0
+    # Google Images potrebbe essere limitato
+
+  # NOTIZIE
+  - name: duckduckgo-news
+    engine: duckduckgo_news
+    shortcut: ddgn
+    categories: news
+    timeout: 5.0
+
+  - name: google-news
+    engine: google_news
+    shortcut: gn
+    categories: news
+    timeout: 5.0
+
+  # FILE E DOCUMENTI
+  - name: filecrystal
+    engine: filecrystal
+    shortcut: fc
+    categories: files
+    timeout: 5.0
+
+  # MAPPE (limitato senza API key)
+  - name: openstreetmap
+    engine: openstreetmap
+    shortcut: osm
+    categories: maps
+    timeout: 5.0
+
+  # ITINERARI (limitato senza API key)
+  - name: openrouteservice
+    engine: openrouteservice
+    shortcut: ors
+    categories: map
+    timeout: 5.0
+
+  # MUSICA
+  - name: soundcloud
+    engine: soundcloud
+    shortcut: sc
+    categories: music
+    timeout: 5.0
+
+  # VIDEO
+  - name: peertube
+    engine: peertube
+    shortcut: pt
+    categories: videos
+    timeout: 5.0
+
+  - name: invidious
+    engine: invidious
+    shortcut: inv
+    categories: videos
+    timeout: 5.0
+    instance: "https://invidious.fdn.fr"
+
+  # SOCIAL MEDIA
+  - name: twitter
+    engine: twitter
+    shortcut: tw
+    categories: social media
+    timeout: 5.0
+
+  # CODICE E SVILUPPO
+  - name: github
+    engine: github
+    shortcut: gh
+    categories: it
+    timeout: 5.0
+
+  - name: stackexchange
+    engine: stackexchange
+    shortcut: se
+    categories: it
+    timeout: 5.0
+
+  # SCIENZA E RICERCA
+  - name: semantic_scholar
+    engine: semantic_scholar
+    shortcut: ss
+    categories: science
+    timeout: 5.0
+
+  - name: crossref
+    engine: crossref
+    shortcut: cr
+    categories: science
+    timeout: 5.0
+
+# CONFIGURAZIONI AVANZATE
+plugins:
+  - 'searx.plugins.oa_doi_rewrite'
+  - 'searx.plugins.self_info'
+  - 'searx.plugins.search_on_category_select'
+
+cache:
+  type: "simple"
+
+outgoing:
+  pool_connections: 100
+  pool_maxsize: 10
+  max_retries: 1
+
+result_proxy:
+  url: ""
+  key: ""
+
+logging:
+  level: "ERROR"
+
+use_default_settings: true
+
+# CONFIGURAZIONE ITALIANA
+ui:
+  default_locale: "it"
+  locales:
+    it: "Italiano"
+    en: "English"
+  theme: "simple"
+  results_on_new_tab: false
+
+# ABILITA/DISABILITA CATEGORIE
+categories:
+  general:
+    name: "Generale"
+    engines: ["duckduckgo", "startpage", "qwant", "brave", "wikipedia", "wiktionary"]
+  images:
+    name: "Immagini"
+    engines: ["duckduckgo-images", "google-images"]
+  news:
+    name: "Notizie"
+    engines: ["duckduckgo-news", "google-news"]
+  videos:
+    name: "Video"
+    engines: ["peertube", "invidious"]
+  music:
+    name: "Musica"
+    engines: ["soundcloud"]
+  it:
+    name: "Informatica"
+    engines: ["github", "stackexchange"]
+  science:
+    name: "Scienza"
+    engines: ["semantic_scholar", "crossref"]
+  files:
+    name: "File"
+    engines: ["filecrystal"]
+  social media:
+    name: "Social"
+    engines: ["twitter"]
+  maps:
+    name: "Mappe"
+    engines: ["openstreetmap", "openrouteservice"]
