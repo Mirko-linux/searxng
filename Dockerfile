@@ -10,7 +10,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
-    make \
     python3-venv \
     libffi-dev \
     libxml2-dev \
@@ -19,15 +18,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia il progetto
+# Crea directory app
 WORKDIR /app
-COPY . /app
 
-# Installa SearXNG con make install
-RUN make install
+# Copia requirements prima per caching
+COPY requirements.txt ./
+
+# Installa le dipendenze Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia tutto il resto
+COPY . .
+
+# Crea le directory necessarie
+RUN mkdir -p /app/searx/data /app/searx/plugins
 
 # Espone la porta
 EXPOSE 8080
 
-# Avvia l’app
-CMD ["python3", "-m", "searx.webapp", "--host", "0.0.0.0", "--port", "8080"]
+# Avvia l'app (MODIFICATO per Render)
+CMD ["python", "-m", "searx.webapp", "--host", "0.0.0.0", "--port", "8080"]
