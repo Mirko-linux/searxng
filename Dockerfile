@@ -35,6 +35,4 @@ RUN mkdir -p /app/searx/data /app/searx/plugins
 
 # Espone la porta
 EXPOSE 8080
-
-# Avvia l'app (MODIFICATO per Render)
-CMD ["python", "-m", "searx.webapp", "--host", "0.0.0.0", "--port", "8080"]
+CMD python3 -m searx.webapp --host 0.0.0.0 --port ${PORT}
