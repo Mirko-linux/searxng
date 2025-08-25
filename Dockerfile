@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PORT=8080 \
-    INSTANCE_NAME="SearXNG-Voyager" \
+    INSTANCE_NAME="searxng" \
     SEARXNG_SETTINGS_PATH="/app/settings.yml"
 
 # Installa dipendenze base
