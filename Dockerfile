@@ -23,17 +23,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Imposta la directory di lavoro all'interno del container
 WORKDIR /app
 
-# Crea le directory necessarie per SearxNG prima di copiare i file
-RUN mkdir -p /app/searx/data /app/searx/plugins
-
 # Copia i requisiti prima per sfruttare la cache
 COPY requirements.txt ./
 
 # Installa le dipendenze Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia il file settings.yml nella posizione corretta
-COPY settings.yml /app/searx/settings.yml
+# Crea la directory principale per SearxNG
+RUN mkdir -p /app/searx
+
+# Genera il file settings.yml direttamente nel Dockerfile
+RUN echo 'instance_name: SearXNG' > /app/searx/settings.yml && \
+    echo 'bind_address: 0.0.0.0' >> /app/searx/settings.yml && \
+    echo 'port: 8080' >> /app/searx/settings.yml && \
+    echo 'image_proxy: False' >> /app/searx/settings.yml && \
+    echo 'search:' >> /app/searx/settings.yml && \
+    echo '    safe: True' >> /app/searx/settings.yml
+
+# Crea le directory necessarie per SearxNG
+RUN mkdir -p /app/searx/data /app/searx/plugins
 
 # Espone la porta
 EXPOSE 8080
