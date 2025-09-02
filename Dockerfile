@@ -46,5 +46,11 @@ RUN mkdir -p /app/searx/data /app/searx/plugins
 # Espone la porta
 EXPOSE 8080
 
+# Clona il codice sorgente di SearxNG
+RUN git clone --depth=1 https://github.com/searxng/searxng.git /app/searxng
+
+# Installa SearxNG come modulo Python
+RUN pip install /app/searxng
+
 # Avvia l'app
-CMD ["python", "-m", "searx.webapp", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python", "-m", "searxng.webapp", "--host", "0.0.0.0", "--port", "8080"]
