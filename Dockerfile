@@ -1,3 +1,4 @@
+# Usa un'immagine Python leggera e sicura
 FROM python:3.11-slim-bookworm
 
 # Variabili ambiente
@@ -7,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PORT=8080 \
     INSTANCE_NAME="searxng"
 
-# Installa dipendenze base
+# Installa dipendenze di sistema necessarie
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     git \
@@ -19,20 +20,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Crea directory app
+# Imposta la directory di lavoro all'interno del container
 WORKDIR /app
 
-# Copia requirements prima per caching
+# Crea le directory necessarie per SearxNG prima di copiare i file
+RUN mkdir -p /app/searx/data /app/searx/plugins
+
+# Copia i requisiti prima per sfruttare la cache
 COPY requirements.txt ./
 
 # Installa le dipendenze Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia il file settings.yml nella posizione CORRETTA dove SearxNG lo cerca
+# Copia il file settings.yml nella posizione corretta
 COPY settings.yml /app/searx/settings.yml
-
-# Crea le directory necessarie per SearxNG
-RUN mkdir -p /app/searx/data /app/searx/plugins
 
 # Espone la porta
 EXPOSE 8080
